@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block title %}Edit Testimonial{% endblock %}
+{% block content %}
+    <div class="container my-5">
+    <br><br>
+        <h1>Edit Testimonial</h1>
+        <form method="POST">
+            <div class="mb-3">
+                <label for="client_name" class="form-label">Client Name</label>
+                <input type="text" class="form-control" id="client_name" name="client_name" value="{{ testimonial.client_name }}" required>
+            </div>
+            <div class="mb-3">
+                <label for="content" class="form-label">Content</label>
+                <textarea class="form-control" id="content" name="content" rows="5" required>{{ testimonial.content }}</textarea>
+            </div>
+            <div class="mb-3">
+                <label for="location" class="form-label">Location</label>
+                <input type="text" class="form-control" id="location" name="location" value="{{ testimonial.location }}">
+            </div>
+            <div class="mb-3">
+                <label for="rating" class="form-label">Rating (1-5)</label>
+                <input type="number" class="form-control" id="rating" name="rating" min="1" max="5" value="{{ testimonial.rating }}" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Update Testimonial</button>
+            <a href="{{ url_for('admin_dashboard') }}" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+{% endblock %}

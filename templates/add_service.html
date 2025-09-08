@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block title %}Add Service{% endblock %}
+{% block content %}
+    <div class="container my-5">
+    <br><br>
+        <h1>Add Service</h1>
+        <form method="POST">
+            <div class="mb-3">
+                <label for="name" class="form-label">Service Name</label>
+                <input type="text" class="form-control" id="name" name="name" required>
+            </div>
+            <div class="mb-3">
+                <label for="description" class="form-label">Description</label>
+                <textarea class="form-control" id="description" name="description" rows="5" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-success">Add Service</button>
+        </form>
+    </div>
+{% endblock %}
