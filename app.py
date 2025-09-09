@@ -137,7 +137,7 @@ def init_db():
     with app.app_context():
         db.create_all()
         if not User.query.first():
-            default_password = os.getenv('ADMIN_DEFAULT_PASSWORD', 'SecurePass#2025!')
+            default_password = os.getenv('ADMIN_DEFAULT_PASSWORD')
             is_valid, message = is_strong_password(default_password)
             if not is_valid:
                 raise ValueError(f"Default admin password is not secure: {message}")
