@@ -132,9 +132,9 @@
     </div>
 
     <!-- Testimonials Section -->
-    <h2>Client Testimonials</h2>
+    <h2>Customer Reviews</h2>
     <div class="row">
-        {% for testimonial in testimonials %}
+        {% for testimonial in testimonials if not testimonial.is_user_submitted %}
             <div class="col-md-4 mb-4">
                 <div class="card">
                     <div class="card-body">
@@ -152,6 +152,59 @@
             </div>
         {% endfor %}
     </div>
+
+    <!-- User Reviews Section -->
+
+    <div class="row">
+        {% for testimonial in testimonials if testimonial.is_user_submitted %}
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <p>"{{ testimonial.content }}"</p>
+                        <p>
+                            {% if testimonial.rating %}
+                                {% for i in range(testimonial.rating) %}
+                                    <span class="star">&#9733;</span>
+                                {% endfor %}
+                            {% endif %}
+                            <strong>{{ testimonial.client_name }}</strong>{% if testimonial.location %}, {{ testimonial.location }}{% endif %}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <p>No customer reviews yet. Be the first to leave one!</p>
+        {% endfor %}
+    </div>
+
+    <!-- Review Submission Form -->
+    <h3>Leave a Review</h3>
+    <form method="POST" action="{{ url_for('submit_review') }}">
+        <div class="mb-3">
+            <label for="client_name" class="form-label">Your Name</label>
+            <input type="text" class="form-control" id="client_name" name="client_name" required>
+        </div>
+        <div class="mb-3">
+            <label for="content" class="form-label">Your Review</label>
+            <textarea class="form-control" id="content" name="content" rows="4" required></textarea>
+        </div>
+        <div class="mb-3">
+            <label for="location" class="form-label">Location (Optional)</label>
+            <input type="text" class="form-control" id="location" name="location">
+        </div>
+        <div class="mb-3">
+            <label for="rating" class="form-label">Rating</label>
+            <select class="form-select" id="rating" name="rating" required>
+                <option value="" disabled selected>Select a rating</option>
+                <option value="1">1 Star</option>
+                <option value="2">2 Stars</option>
+                <option value="3">3 Stars</option>
+                <option value="4">4 Stars</option>
+                <option value="5">5 Stars</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit Review</button>
+    </form>
 
     <!-- Modal Carousel -->
     <div class="modal fade" id="imageModal" tabindex="-1" aria-hidden="true">

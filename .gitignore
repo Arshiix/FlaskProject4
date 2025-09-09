@@ -18,3 +18,5 @@
 
      # Static uploads
      static/images/user_uploads/*
+
+    error.log
