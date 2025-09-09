@@ -7,14 +7,16 @@
     <meta name="keywords" content="{% block meta_keywords %}construction, home renovation, Uxbridge, Pinner, Ruislip, West London{% endblock %}">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="{% block canonical_url %}{{ url_for(request.endpoint, _external=True) }}{% endblock %}">
+    <title>Adora Construction Ltd - {% block title %}{% endblock %}</title>
+
     {% block og_tags %}
-        <meta property="og:title" content="Adora Construction Ltd - {% block title %}{% endblock %}">
+        <meta property="og:title" content="Adora Construction Ltd - {{ self.title() }}">
         <meta property="og:description" content="Adora Construction Ltd provides expert construction and repair services in Uxbridge, Pinner, Ruislip, and West London.">
         <meta property="og:type" content="website">
         <meta property="og:url" content="{{ url_for(request.endpoint, _external=True) }}">
         <meta property="og:image" content="{{ url_for('static', filename='images/hero.png', _external=True) }}">
         <meta name="twitter:card" content="summary_large_image">
-        <meta name="twitter:title" content="Adora Construction Ltd - {% block title %}{% endblock %}">
+        <meta name="twitter:title" content="Adora Construction Ltd - {{ self.title() }}">
         <meta name="twitter:description" content="Adora Construction Ltd provides expert construction and repair services in Uxbridge, Pinner, Ruislip, and West London.">
         <meta name="twitter:image" content="{{ url_for('static', filename='images/hero.png', _external=True) }}">
     {% endblock %}
