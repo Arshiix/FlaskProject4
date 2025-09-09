@@ -270,7 +270,7 @@ def is_allowed_file(filename):
 @limiter.limit("5 per minute")
 def login():
     form = LoginForm()
-    if form.validate_on_submit():
+    if form.validate_on_submit():  # form passed validation
         username = form.username.data
         password = form.password.data
         user = User.query.filter_by(username=username).first()
@@ -279,8 +279,12 @@ def login():
             app.logger.info(f"Successful login for user: {username}")
             flash('Logged in successfully.', 'success')
             return redirect(url_for('admin_dashboard'))
-        flash('Invalid username or password.', 'danger')
+        else:
+            # Only flash if credentials are wrong
+            flash('Invalid username or password.', 'danger')
+    # WTForms validation errors will already appear via form.errors
     return render_template('login.html', form=form)
+
 
 
 @app.route('/logout')
