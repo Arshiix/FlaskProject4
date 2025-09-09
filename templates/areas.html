@@ -1,0 +1,161 @@
+{% extends 'base.html' %}
+{% block title %}Areas We Cover - Adora Construction LTD{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <!-- Page Title -->
+    <br><br><br>
+    <h1 class="mb-4 text-center fw-bold">Areas We Cover</h1>
+
+    <!-- Intro -->
+    <p class="lead text-center mb-4">
+        Adora Construction LTD is proud to provide expert construction, building, and repair services
+        across <strong>West London</strong> and surrounding areas. Based in Uxbridge, we work with
+        both homeowners and businesses to deliver top-quality workmanship, from
+        <em>house extensions</em> and <em>renovations</em> to <em>plumbing</em>, <em>electrical</em>, and
+        general building services.
+    </p>
+
+
+    <div class="contact-options d-flex justify-content-center align-items-center mb-5" style="margin-top: 2rem;">
+    <div class="text-center mb-3">
+        <a href="/contact" class="btn btn-primary btn-lg px-4">Get a Free Quote Today</a>
+    </div>
+
+    <div class="text-center mx-3">
+        <h5>Call Us</h5>
+        <p><a href="tel:+447477659370" class="text-decoration-none">+44 7477 659370</a></p>
+    </div>
+</div>
+
+    <!-- Coverage Areas -->
+    <h2 class="mb-4 text-center">Our Coverage Areas</h2>
+
+    <div class="row g-4">
+        <!-- West London -->
+        <div class="col-md-6">
+            <div class="card shadow-sm h-100 border-0">
+                <div class="card-body">
+                    <h5 class="card-title text-primary mb-3 text-center">West London</h5>
+                    <div class="d-flex flex-wrap justify-content-center gap-2">
+                        <a href="/contact" class="badge bg-primary p-3">Ealing</a>
+                        <a href="/contact" class="badge bg-primary p-3">Acton</a>
+                        <a href="/contact" class="badge bg-primary p-3">Hanwell</a>
+                        <a href="/contact" class="badge bg-primary p-3">Perivale</a>
+                        <a href="/contact" class="badge bg-primary p-3">Greenford</a>
+                        <a href="/contact" class="badge bg-primary p-3">Southall</a>
+                        <a href="/contact" class="badge bg-primary p-3">Northolt</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Central & South West London -->
+        <div class="col-md-6">
+            <div class="card shadow-sm h-100 border-0">
+                <div class="card-body">
+                    <h5 class="card-title text-primary mb-3 text-center">Central & South West London</h5>
+                    <div class="d-flex flex-wrap justify-content-center gap-2">
+                        <a href="/contact" class="badge bg-primary p-3">Kensington</a>
+                        <a href="/contact" class="badge bg-primary p-3">Chelsea</a>
+                        <a href="/contact" class="badge bg-primary p-3">Notting Hill</a>
+                        <a href="/contact" class="badge bg-primary p-3">Fulham</a>
+                        <a href="/contact" class="badge bg-primary p-3">Hammersmith</a>
+                        <a href="/contact" class="badge bg-primary p-3">Shepherd's Bush</a>
+                        <a href="/contact" class="badge bg-primary p-3">Chiswick</a>
+                        <a href="/contact" class="badge bg-primary p-3">Richmond</a>
+                        <a href="/contact" class="badge bg-primary p-3">Twickenham</a>
+                        <a href="/contact" class="badge bg-primary p-3">Brentford</a>
+                        <a href="/contact" class="badge bg-primary p-3">Isleworth</a>
+                        <a href="/contact" class="badge bg-primary p-3">Hounslow</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- North & North West London -->
+        <div class="col-md-6">
+            <div class="card shadow-sm h-100 border-0">
+                <div class="card-body">
+                    <h5 class="card-title text-primary mb-3 text-center">North & North West London</h5>
+                    <div class="d-flex flex-wrap justify-content-center gap-2">
+                        <a href="/contact" class="badge bg-primary p-3">Harrow</a>
+                        <a href="/contact" class="badge bg-primary p-3">Wembley</a>
+                        <a href="/contact" class="badge bg-primary p-3">Pinner</a>
+                        <a href="/contact" class="badge bg-primary p-3">Northwood</a>
+                        <a href="/contact" class="badge bg-primary p-3">Eastcote</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Uxbridge & Surrounding Areas -->
+        <div class="col-md-6">
+            <div class="card shadow-sm h-100 border-0">
+                <div class="card-body">
+                    <h5 class="card-title text-primary mb-3 text-center">Uxbridge & Surrounding Areas</h5>
+                    <div class="d-flex flex-wrap justify-content-center gap-2">
+                        <a href="/contact" class="badge bg-primary p-3">Uxbridge</a>
+                        <a href="/contact" class="badge bg-primary p-3">Ruislip</a>
+                        <a href="/contact" class="badge bg-primary p-3">Ickenham</a>
+                        <a href="/contact" class="badge bg-primary p-3">Hayes</a>
+                        <a href="/contact" class="badge bg-primary p-3">West Drayton</a>
+                        <a href="/contact" class="badge bg-primary p-3">Hillingdon</a>
+                        <a href="/contact" class="badge bg-primary p-3">Denham</a>
+                        <a href="/contact" class="badge bg-primary p-3">Iver</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Call to Action -->
+    <div class="text-center mt-5">
+        <p class="lead">Don’t see your area listed? We may still be able to help!</p>
+        <a href="/contact" class="btn btn-outline-primary btn-lg">Contact Our Team</a>
+    </div>
+
+    <!-- FAQ Section -->
+    <div class="mt-5">
+        <h3 class="text-center mb-4">Frequently Asked Questions</h3>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq1">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapse1">
+                        Do you cover areas outside West London?
+                    </button>
+                </h2>
+                <div id="faqCollapse1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Yes, depending on the project size and scope, we can cover nearby locations beyond West London. Get in touch to check availability in your area.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq2">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapse2">
+                        What types of services do you provide?
+                    </button>
+                </h2>
+                <div id="faqCollapse2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        We provide house extensions, loft conversions, renovations, electrical work, plumbing, roofing, and general construction services tailored to both residential and commercial needs.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .badge {
+        font-size: 1rem;
+        border-radius: 8px;
+        transition: all 0.2s ease-in-out;
+    }
+    .badge:hover {
+        background-color: #0b5ed7 !important;
+        transform: scale(1.05);
+    }
+</style>
+{% endblock %}

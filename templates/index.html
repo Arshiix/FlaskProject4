@@ -1,0 +1,410 @@
+{% extends 'base.html' %}
+{% block title %}Home{% endblock %}
+{% block content %}
+
+<!-- Hero Section -->
+<div class="hero d-flex align-items-center text-center text-white"
+     style="background: url('{{ url_for('static', filename='images/hero.png') }}') no-repeat center center;
+            background-size: cover;
+            height: 77vh;">
+    <div class="container">
+        <h1 class="text-white">Expert Construction & Repairs in Uxbridge</h1>
+        <p>Professional renovation and repair services across West London. Quality craftsmanship, DBS-cleared team.</p>
+        <a href="/contact" class="btn btn-primary btn-lg">Get a Free Quote</a>
+    </div>
+</div>
+
+<!-- Custom CSS for uniform card images and star ratings -->
+<style>
+.gallery-box {
+    width: 100%;
+    height: 250px; /* uniform card height */
+    overflow: hidden;
+    background-color: #f8f9fa; /* optional neutral background */
+    position: relative;
+    display: flex;
+}
+
+.gallery-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* ensure images fill the box while maintaining aspect ratio */
+    margin: auto;
+    display: block;
+}
+
+/* Default hero alignment */
+.hero .container {
+    margin-top: 0;
+}
+
+/* On mobile screens, push content lower */
+@media (max-width: 768px) {
+    .hero .container {
+        margin-top: 320px; /* adjust until it clears the logo */
+    }
+}
+
+/* Make carousel arrows black */
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    background-color: black; /* solid black */
+    border-radius: 50%;      /* optional: round button */
+    padding: 10px;           /* optional: bigger click area */
+    background-size: 100%, 100%;
+}
+
+/* Optional: make background semi-transparent black */
+.carousel-control-prev-icon::after,
+.carousel-control-next-icon::after {
+    content: '';
+}
+
+/* Star rating styling */
+.star {
+    color: #f8ce0b; /* Gold color for stars */
+    font-size: 1.2rem;
+    margin-right: 2px;
+}
+</style>
+
+<div class="container my-5">
+    <!-- Services Section -->
+    <h2>Our Services</h2>
+    <div class="row">
+        {% for service in services %}
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-body d-flex flex-column">
+                        <h3>{{ service.name }}</h3>
+                        {% set service_to_category = {
+                            'Kitchen Renovations': 'kitchen',
+                            'Bathroom Installations': 'bathroom',
+                            'Flooring Solutions': 'flooring',
+                            'Wardrobe Installations': 'wardrobe',
+                            'Plumbing Repairs': 'plumbing',
+                            'Carpentry & Tiling': 'carpentry_tiling',
+                            '3D Design Services': '3d_design'
+                        } %}
+                        {% set category = service_to_category.get(service.name, service.name.lower().replace(' ', '_')) %}
+                        {% set images = gallery_data.get(category, []) %}
+                        {% if images and images|length > 0 %}
+                            <div id="carousel-{{ service.id }}" class="carousel slide mb-3" data-bs-ride="carousel">
+                                <div class="carousel-inner">
+                                    {% for image in images %}
+                                        <div class="carousel-item {% if loop.first %}active{% endif %}">
+                                            <div class="gallery-box">
+                                                <img src="{{ url_for('static', filename='images/' + image.category + '/' + image.filename) }}"
+                                                     alt="{{ service.name }}"
+                                                     loading="lazy"
+                                                     data-bs-toggle="modal"
+                                                     data-bs-target="#imageModal"
+                                                     data-service-id="{{ service.id }}"
+                                                     data-img-src="{{ url_for('static', filename='images/' + image.category + '/' + image.filename) }}">
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                                {% if images|length > 1 %}
+                                    <button class="carousel-control-prev" type="button" data-bs-target="#carousel-{{ service.id }}" data-bs-slide="prev">
+                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                        <span class="visually-hidden">Previous</span>
+                                    </button>
+                                    <button class="carousel-control-next" type="button" data-bs-target="#carousel-{{ service.id }}" data-bs-slide="next">
+                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                        <span class="visually-hidden">Next</span>
+                                    </button>
+                                {% endif %}
+                            </div>
+                        {% else %}
+                            <div class="gallery-box">
+                                <img src="{{ url_for('static', filename='images/placeholder.png') }}"
+                                     alt="No images available"
+                                     loading="lazy">
+                            </div>
+                        {% endif %}
+                        <p class="mt-3">{{ service.description }}</p>
+                        <a href="{{ url_for('service', service_id=service.id) }}" class="btn btn-primary mt-auto">View Details</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <!-- Testimonials Section -->
+    <h2>Customer Reviews</h2>
+    <div class="row">
+        {% for testimonial in testimonials if not testimonial.is_user_submitted %}
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <p>"{{ testimonial.content }}"</p>
+                        <p>
+                            {% if testimonial.rating %}
+                                {% for i in range(testimonial.rating) %}
+                                    <span class="star">&#9733;</span>
+                                {% endfor %}
+                            {% endif %}
+                            <strong>{{ testimonial.client_name }}</strong>{% if testimonial.location %}, {{ testimonial.location }}{% endif %}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <!-- User Reviews Section -->
+
+    <div class="row">
+        {% for testimonial in testimonials if testimonial.is_user_submitted %}
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <p>"{{ testimonial.content }}"</p>
+                        <p>
+                            {% if testimonial.rating %}
+                                {% for i in range(testimonial.rating) %}
+                                    <span class="star">&#9733;</span>
+                                {% endfor %}
+                            {% endif %}
+                            <strong>{{ testimonial.client_name }}</strong>{% if testimonial.location %}, {{ testimonial.location }}{% endif %}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <p>No customer reviews yet. Be the first to leave one!</p>
+        {% endfor %}
+    </div>
+
+    <!-- Review Submission Form -->
+    <h3>Leave a Review</h3>
+    <form method="POST" action="{{ url_for('submit_review') }}">
+        <div class="mb-3">
+            <label for="client_name" class="form-label">Your Name</label>
+            <input type="text" class="form-control" id="client_name" name="client_name" required>
+        </div>
+        <div class="mb-3">
+            <label for="content" class="form-label">Your Review</label>
+            <textarea class="form-control" id="content" name="content" rows="4" required></textarea>
+        </div>
+        <div class="mb-3">
+            <label for="location" class="form-label">Location (Optional)</label>
+            <input type="text" class="form-control" id="location" name="location">
+        </div>
+        <div class="mb-3">
+            <label for="rating" class="form-label">Rating</label>
+            <select class="form-select" id="rating" name="rating" required>
+                <option value="" disabled selected>Select a rating</option>
+                <option value="1">1 Star</option>
+                <option value="2">2 Stars</option>
+                <option value="3">3 Stars</option>
+                <option value="4">4 Stars</option>
+                <option value="5">5 Stars</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit Review</button>
+    </form>
+
+    <!-- Modal Carousel -->
+    <div class="modal fade" id="imageModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content bg-black border-0 position-relative">
+          <!-- Close Button -->
+          <button type="button" class="btn-close position-absolute top-0 end-0 m-3"
+                  data-bs-dismiss="modal" aria-label="Close"
+                  style="z-index:1050; filter: invert(25%) sepia(95%) saturate(7500%) hue-rotate(-5deg) brightness(95%) contrast(105%);">
+          </button>
+          <div class="modal-body p-0 text-center">
+            <div id="modalCarousel" class="carousel slide" data-bs-ride="false">
+              <div class="carousel-inner" id="modalCarouselInner">
+                <!-- Images injected dynamically -->
+              </div>
+              <button class="carousel-control-prev" type="button" data-bs-target="#modalCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+              </button>
+              <button class="carousel-control-next" type="button" data-bs-target="#modalCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+
+<section class="content5 cid-services" id="services">
+    <div class="container">
+        <div class="row justify-content-center mb-4">
+            <div class="col-md-12 text-center">
+                <h4 class="display-5"><strong>Our Services</strong></h4>
+                <p class="lead">
+                    At <strong>Adora Construction Ltd</strong>, we provide a comprehensive range of expert services to enhance and maintain your home or office. From bespoke renovations to urgent repairs, our skilled team delivers top-quality results every time.
+                </p>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-12 d-flex flex-wrap justify-content-center gap-2">
+                <a href="{{ url_for('gallery_category', category='kitchen') }}" class="badge bg-primary fs-6 p-3">Kitchen Renovations</a>
+                <a href="{{ url_for('gallery_category', category='bathroom') }}" class="badge bg-primary fs-6 p-3">Bathroom Installations</a>
+                <a href="{{ url_for('gallery_category', category='wardrobe') }}" class="badge bg-primary fs-6 p-3">Wardrobe Installations</a>
+                <a href="{{ url_for('gallery_category', category='plumbing') }}" class="badge bg-primary fs-6 p-3">Plumbing Repairs</a>
+                <a href="{{ url_for('gallery_category', category='carpentry_tiling') }}" class="badge bg-primary fs-6 p-3">Carpentry & Tiling</a>
+                <a href="{{ url_for('gallery_category', category='3d_design') }}" class="badge bg-primary fs-6 p-3">3D Design Services</a>
+                <a href="/contact#Alarm-System-Fitting" class="badge bg-primary fs-6 p-3">Alarm System Fitting</a>
+                <a href="/contact#Blocked-Drains" class="badge bg-primary fs-6 p-3">Blocked Drains</a>
+                <a href="/contact#CCTV-Fitting" class="badge bg-primary fs-6 p-3">CCTV Fitting</a>
+                <a href="/contact#Decking" class="badge bg-primary fs-6 p-3">Decking Installation & Repairs</a>
+                <a href="/contact#Flat-Pack-Assembly" class="badge bg-primary fs-6 p-3">Flat Pack Assembly</a>
+                <a href="/contact#Gutter-Cleaning" class="badge bg-primary fs-6 p-3">Gutter Cleaning</a>
+                <a href="/contact#House-Extensions" class="badge bg-primary fs-6 p-3">House Extensions</a>
+                <a href="/contact#Roof-Repairs" class="badge bg-primary fs-6 p-3">Roof Repairs</a>
+                <a href="/contact#Painting-Decorating" class="badge bg-primary fs-6 p-3">Painting & Decorating</a>
+                <a href="/contact#Loft-Conversions" class="badge bg-primary fs-6 p-3">Loft Conversions</a>
+                <a href="/contact#Flooring" class="badge bg-primary fs-6 p-3">Flooring & Tiling</a>
+                <a href="/contact#Doors-Windows" class="badge bg-primary fs-6 p-3">Door & Window Installation</a>
+                <a href="/contact#Garden-Landscaping" class="badge bg-primary fs-6 p-3">Garden Landscaping</a>
+                <a href="/contact#Home-Security" class="badge bg-primary fs-6 p-3">Home Security Systems</a>
+                <a href="/contact#Maintenance" class="badge bg-primary fs-6 p-3">General Maintenance</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="content5 cid-areas" id="areas">
+    <div class="container">
+        <div class="row justify-content-center mb-4">
+            <div class="col-md-12 text-center">
+                <br>
+                <h4 class="display-5"><strong>Areas We Serve</strong></h4>
+                <p class="lead">
+                    Proudly delivering high-quality construction, renovation, and repair services across West London.
+                </p>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-12 d-flex flex-wrap justify-content-center gap-2">
+                <a href="/contact#Uxbridge" class="badge bg-secondary fs-6 p-3">Uxbridge</a>
+                <a href="/contact#Pinner" class="badge bg-secondary fs-6 p-3">Pinner</a>
+                <a href="/contact#Ruislip" class="badge bg-secondary fs-6 p-3">Ruislip</a>
+                <a href="/contact#Ickenham" class="badge bg-secondary fs-6 p-3">Ickenham</a>
+                <a href="/contact#Ealing" class="badge bg-secondary fs-6 p-3">Ealing</a>
+                <a href="/contact#Acton" class="badge bg-secondary fs-6 p-3">Acton</a>
+                <a href="/contact#Richmond" class="badge bg-secondary fs-6 p-3">Richmond</a>
+                <a href="/contact#Chiswick" class="badge bg-secondary fs-6 p-3">Chiswick</a>
+                <a href="/contact#Kensington" class="badge bg-secondary fs-6 p-3">Kensington</a>
+                <a href="/contact#Chelsea" class="badge bg-secondary fs-6 p-3">Chelsea</a>
+                <a href="/contact#Hayes" class="badge bg-secondary fs-6 p-3">Hayes</a>
+                <a href="/contact#West-Drayton" class="badge bg-secondary fs-6 p-3">West Drayton</a>
+                <a href="/contact#Hillingdon" class="badge bg-secondary fs-6 p-3">Hillingdon</a>
+                <a href="/contact#Denham" class="badge bg-secondary fs-6 p-3">Denham</a>
+                <a href="/contact#Iver" class="badge bg-secondary fs-6 p-3">Iver</a>
+                <a href="/contact#Northwood" class="badge bg-secondary fs-6 p-3">Northwood</a>
+                <a href="/contact#Eastcote" class="badge bg-secondary fs-6 p-3">Eastcote</a>
+                <a href="/contact#Harrow" class="badge bg-secondary fs-6 p-3">Harrow</a>
+                <a href="/contact#Northolt" class="badge bg-secondary fs-6 p-3">Northolt</a>
+                <a href="/contact#Greenford" class="badge bg-secondary fs-6 p-3">Greenford</a>
+                <a href="/contact#Southall" class="badge bg-secondary fs-6 p-3">Southall</a>
+                <a href="/contact#Hanwell" class="badge bg-secondary fs-6 p-3">Hanwell</a>
+                <a href="/contact#Perivale" class="badge bg-secondary fs-6 p-3">Perivale</a>
+                <a href="/contact#Wembley" class="badge bg-secondary fs-6 p-3">Wembley</a>
+                <a href="/contact#Brentford" class="badge bg-secondary fs-6 p-3">Brentford</a>
+                <a href="/contact#Twickenham" class="badge bg-secondary fs-6 p-3">Twickenham</a>
+                <a href="/contact#Hounslow" class="badge bg-secondary fs-6 p-3">Hounslow</a>
+                <a href="/contact#Isleworth" class="badge bg-secondary fs-6 p-3">Isleworth</a>
+                <a href="/contact#Hammersmith" class="badge bg-secondary fs-6 p-3">Hammersmith</a>
+                <a href="/contact#Fulham" class="badge bg-secondary fs-6 p-3">Fulham</a>
+                <a href="/contact#Notting-Hill" class="badge bg-secondary fs-6 p-3">Notting Hill</a>
+                <a href="/contact#Shepherds-Bush" class="badge bg-secondary fs-6 p-3">Shepherd's Bush</a>
+            </div>
+        </div>
+    </div>
+</section>
+    <br>
+
+<!-- Modal Script -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    var imageModal = document.getElementById("imageModal");
+    var modalCarouselInner = document.getElementById("modalCarouselInner");
+
+    // Collect all gallery images by service
+    var galleries = {};
+    document.querySelectorAll(".gallery-box img").forEach(function(img) {
+        var serviceId = img.getAttribute("data-service-id");
+        var imgSrc = img.getAttribute("data-img-src");
+        if (serviceId && imgSrc) {
+            if (!galleries[serviceId]) galleries[serviceId] = [];
+            galleries[serviceId].push(imgSrc);
+        }
+    });
+
+    imageModal.addEventListener("show.bs.modal", function (event) {
+        var trigger = event.relatedTarget;
+        var serviceId = trigger.getAttribute("data-service-id");
+        var clickedSrc = trigger.getAttribute("data-img-src");
+
+        // Clear previous images and reset carousel state
+        modalCarouselInner.innerHTML = "";
+
+        // Get images for this service
+        var images = galleries[serviceId] || [clickedSrc].filter(Boolean);
+        if (images.length === 0) {
+            // Fallback: show a placeholder if no images
+            images = ["{{ url_for('static', filename='images/placeholder.png') }}"];
+        }
+
+        // Populate modal carousel
+        images.forEach(function(src, index) {
+            var activeClass = (src === clickedSrc && index === images.indexOf(clickedSrc)) ? "active" : "";
+            var div = document.createElement("div");
+            div.className = "carousel-item " + activeClass;
+            div.innerHTML = `<img src="${src}" class="d-block mx-auto" style="max-width:100%; max-height:90vh; object-fit:contain;" alt="Service image">`;
+            modalCarouselInner.appendChild(div);
+        });
+
+        // Show/hide carousel controls based on number of images
+        var prevButton = document.querySelector("#modalCarousel .carousel-control-prev");
+        var nextButton = document.querySelector("#modalCarousel .carousel-control-next");
+        if (images.length > 1) {
+            prevButton.style.display = "block";
+            nextButton.style.display = "block";
+        } else {
+            prevButton.style.display = "none";
+            nextButton.style.display = "none";
+        }
+
+        // Initialize or re-initialize the carousel
+        var modalCarouselEl = document.getElementById("modalCarousel");
+        // Dispose of any existing carousel instance to prevent conflicts
+        if (modalCarouselEl._carousel) {
+            modalCarouselEl._carousel.dispose();
+        }
+        var modalCarousel = new bootstrap.Carousel(modalCarouselEl, {
+            ride: false,
+            interval: false
+        });
+
+        // Ensure the correct image is shown by setting the active slide
+        if (clickedSrc) {
+            var activeIndex = images.indexOf(clickedSrc);
+            if (activeIndex !== -1) {
+                modalCarousel.to(activeIndex);
+            }
+        }
+    });
+
+    // Reset carousel state when modal is hidden to prevent stale data
+    imageModal.addEventListener("hidden.bs.modal", function () {
+        modalCarouselInner.innerHTML = "";
+        var modalCarouselEl = document.getElementById("modalCarousel");
+        if (modalCarouselEl._carousel) {
+            modalCarouselEl._carousel.dispose();
+        }
+    });
+});
+</script>
+
+{% endblock %}

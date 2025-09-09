@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% block title %}Add Testimonial{% endblock %}
+{% block content %}
+    <div class="container my-5">
+        <h1>Add Testimonial</h1>
+        <form method="POST">
+
+            <div class="mb-3">
+                <label for="client_name" class="form-label">Client Name</label>
+                <input type="text" class="form-control" id="client_name" name="client_name" required>
+            </div>
+            <div class="mb-3">
+                <label for="content" class="form-label">Testimonial</label>
+                <textarea class="form-control" id="content" name="content" rows="5" required></textarea>
+            </div>
+            <div class="mb-3">
+                <label for="location" class="form-label">Location (Optional)</label>
+                <input type="text" class="form-control" id="location" name="location">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Rating</label>
+                <div class="star-rating">
+                    <input type="radio" id="star5" name="rating" value="5" required>
+                    <label for="star5" class="star">&#9733;</label>
+                    <input type="radio" id="star4" name="rating" value="4">
+                    <label for="star4" class="star">&#9733;</label>
+                    <input type="radio" id="star3" name="rating" value="3">
+                    <label for="star3" class="star">&#9733;</label>
+                    <input type="radio" id="star2" name="rating" value="2">
+                    <label for="star2" class="star">&#9733;</label>
+                    <input type="radio" id="star1" name="rating" value="1">
+                    <label for="star1" class="star">&#9733;</label>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-success">Add Testimonial</button>
+        </form>
+    </div>
+
+    <!-- Custom CSS for Star Rating -->
+    <style>
+        .star-rating {
+            display: flex;
+            flex-direction: row-reverse; /* Reverse order for intuitive clicking */
+            justify-content: flex-end;
+            font-size: 1.5rem;
+        }
+
+        .star-rating input {
+            display: none; /* Hide radio buttons */
+        }
+
+        .star-rating label {
+            color: #ccc; /* Default star color */
+            cursor: pointer;
+            padding: 0 5px;
+        }
+
+        .star-rating input:checked ~ label,
+        .star-rating label:hover,
+        .star-rating label:hover ~ label {
+            color: #f8ce0b; /* Gold color for selected/hovered stars */
+        }
+
+        .star-rating input:checked + label {
+            color: #f8ce0b; /* Ensure the checked star is highlighted */
+        }
+    </style>
+{% endblock %}
