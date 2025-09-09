@@ -300,6 +300,12 @@ def login():
             return redirect(url_for('admin_dashboard'))
     return render_template('login.html', form=form)
 
+
+
+@app.route('/sitemap.xml')
+def sitemap():
+    return send_from_directory('static', 'sitemap.xml')
+
 @app.route('/logout')
 @login_required
 def logout():
