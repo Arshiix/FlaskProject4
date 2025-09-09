@@ -1,11 +1,62 @@
 {% extends 'base.html' %}
-{% block title %}Contact Us{% endblock %}
+{% block title %}Contact Adora Construction - Uxbridge Home Renovation{% endblock %}
+{% block meta_description %}Contact Adora Construction Ltd in Uxbridge for expert home renovation, plumbing, electrical, and carpentry services across West London. Get a free quote today.{% endblock %}
+{% block meta_keywords %}contact Adora Construction, home renovation, Uxbridge, West London, plumbing, electrical, carpentry, free quote{% endblock %}
+{% block canonical_url %}{{ url_for('contact', _external=True) }}{% endblock %}
+{% block og_tags %}
+    <meta property="og:title" content="Contact Adora Construction - Uxbridge Home Renovation">
+    <meta property="og:description" content="Contact Adora Construction Ltd in Uxbridge for expert home renovation, plumbing, electrical, and carpentry services across West London. Get a free quote today.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ url_for('contact', _external=True) }}">
+    <meta property="og:image" content="{{ url_for('static', filename='images/hero.png', _external=True) }}">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Contact Adora Construction - Uxbridge Home Renovation">
+    <meta name="twitter:description" content="Contact Adora Construction Ltd in Uxbridge for expert home renovation, plumbing, electrical, and carpentry services across West London.">
+    <meta name="twitter:image" content="{{ url_for('static', filename='images/hero.png', _external=True) }}">
+{% endblock %}
+{% block structured_data %}
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "LocalBusiness",
+        "name": "Adora Construction Ltd",
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "345 Harlington Rd",
+            "addressLocality": "Uxbridge",
+            "addressRegion": "London",
+            "postalCode": "UB8 3JD",
+            "addressCountry": "UK"
+        },
+        "telephone": "+447477659370",
+        "email": "adora.constructionltd@gmail.com",
+        "url": "{{ url_for('contact', _external=True) }}",
+        "image": "{{ url_for('static', filename='images/hero.png', _external=True) }}",
+        "description": "Contact Adora Construction Ltd in Uxbridge for expert home renovation, plumbing, electrical, and carpentry services across West London.",
+        "areaServed": [
+            "Uxbridge", "Pinner", "Ruislip", "Ickenham", "Ealing", "Acton", "Richmond", "Chiswick",
+            "Kensington", "Chelsea", "Hayes", "West Drayton", "Hillingdon", "Denham", "Iver",
+            "Northwood", "Eastcote", "Harrow", "Northolt", "Greenford", "Southall", "Hanwell",
+            "Perivale", "Wembley", "Brentford", "Twickenham", "Hounslow", "Isleworth", "Hammersmith",
+            "Fulham", "Notting Hill", "Shepherd's Bush"
+        ],
+        "openingHours": "Mo-Fr 08:00-18:00",
+        "contactPoint": {
+            "@type": "ContactPoint",
+            "telephone": "+447477659370",
+            "email": "adora.constructionltd@gmail.com",
+            "contactType": "Customer Service",
+            "areaServed": ["UK"],
+            "availableLanguage": ["English"]
+        }
+    }
+    </script>
+{% endblock %}
 {% block content %}
 <div class="container my-5">
-<br><br><br><br>
-    <h1>Contact Us by form</h1>
-
-
+    <br><br><br><br>
+    <h1>Contact Us</h1>
+    <p class="lead mb-4">Get in touch with Adora Construction Ltd for expert <a href="/services" class="text-primary">home renovation and repair services</a> in <a href="/areas" class="text-primary">Uxbridge, Pinner, Ruislip, and West London</a>. Fill out the form below or call us at <a href="tel:+447477659370" class="text-primary">+44 7477 659370</a>.</p>
 
     {% if service %}
         <h4 class="mb-3">Service: {{ service.name }}</h4>
@@ -51,8 +102,6 @@
             </div>
         </div>
 
-
-
         <!-- Gallery Selection by Category -->
         <div class="mb-4">
             {% for category, images in all_gallery_data.items() %}
@@ -63,7 +112,7 @@
                         <label class="gallery-item" style="cursor:pointer; flex:0 0 calc(16.66% - 0.5rem);">
                             <input type="checkbox" name="gallery_image" value="{{ img.filename }}" class="gallery-checkbox d-none">
                             <img src="{{ url_for('static', filename='images/' + img.category + '/' + img.filename) }}"
-                                 alt="Gallery Image"
+                                 alt="{{ category.replace('_', ' ').title() }} in Uxbridge"
                                  class="img-fluid border rounded selection-image">
                         </label>
                     {% endfor %}

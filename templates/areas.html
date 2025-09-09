@@ -1,6 +1,48 @@
 {% extends 'base.html' %}
-{% block title %}Areas We Cover - Adora Construction LTD{% endblock %}
-
+{% block title %}Areas We Cover - Adora Construction in West London{% endblock %}
+{% block meta_description %}Adora Construction provides expert construction, renovation, and repair services across West London, including Uxbridge, Pinner, Ruislip, Ealing, and more. Contact us for a free quote.{% endblock %}
+{% block meta_keywords %}construction services, home renovation, Uxbridge, Pinner, Ruislip, Ealing, West London, house extensions, plumbing, electrical{% endblock %}
+{% block canonical_url %}{{ url_for('areas', _external=True) }}{% endblock %}
+{% block og_tags %}
+    <meta property="og:title" content="Areas We Cover - Adora Construction in West London">
+    <meta property="og:description" content="Adora Construction provides expert construction, renovation, and repair services across West London, including Uxbridge, Pinner, Ruislip, Ealing, and more.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ url_for('areas', _external=True) }}">
+    <meta property="og:image" content="{{ url_for('static', filename='images/hero.png', _external=True) }}">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Areas We Cover - Adora Construction in West London">
+    <meta name="twitter:description" content="Adora Construction provides expert construction, renovation, and repair services across West London, including Uxbridge, Pinner, Ruislip, Ealing, and more.">
+    <meta name="twitter:image" content="{{ url_for('static', filename='images/hero.png', _external=True) }}">
+{% endblock %}
+{% block structured_data %}
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "LocalBusiness",
+        "name": "Adora Construction Ltd",
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "345 Harlington Rd",
+            "addressLocality": "Uxbridge",
+            "addressRegion": "London",
+            "postalCode": "UB8 3JD",
+            "addressCountry": "UK"
+        },
+        "telephone": "+447477659370",
+        "url": "{{ url_for('areas', _external=True) }}",
+        "image": "{{ url_for('static', filename='images/hero.png', _external=True) }}",
+        "description": "Adora Construction Ltd provides expert construction, renovation, and repair services across West London, including Uxbridge, Pinner, Ruislip, Ealing, and surrounding areas.",
+        "areaServed": [
+            "Uxbridge", "Pinner", "Ruislip", "Ickenham", "Ealing", "Acton", "Richmond", "Chiswick",
+            "Kensington", "Chelsea", "Hayes", "West Drayton", "Hillingdon", "Denham", "Iver",
+            "Northwood", "Eastcote", "Harrow", "Northolt", "Greenford", "Southall", "Hanwell",
+            "Perivale", "Wembley", "Brentford", "Twickenham", "Hounslow", "Isleworth", "Hammersmith",
+            "Fulham", "Notting Hill", "Shepherd's Bush"
+        ],
+        "openingHours": "Mo-Fr 08:00-18:00"
+    }
+    </script>
+{% endblock %}
 {% block content %}
 <div class="container my-5">
     <!-- Page Title -->
@@ -16,17 +58,16 @@
         general building services.
     </p>
 
-
     <div class="contact-options d-flex justify-content-center align-items-center mb-5" style="margin-top: 2rem;">
-    <div class="text-center mb-3">
-        <a href="/contact" class="btn btn-primary btn-lg px-4">Get a Free Quote Today</a>
-    </div>
+        <div class="text-center mb-3">
+            <a href="/contact" class="btn btn-primary btn-lg px-4">Get a Free Quote Today</a>
+        </div>
 
-    <div class="text-center mx-3">
-        <h5>Call Us</h5>
-        <p><a href="tel:+447477659370" class="text-decoration-none">+44 7477 659370</a></p>
+        <div class="text-center mx-3">
+            <h5>Call Us</h5>
+            <p><a href="tel:+447477659370" class="text-decoration-none">+44 7477 659370</a></p>
+        </div>
     </div>
-</div>
 
     <!-- Coverage Areas -->
     <h2 class="mb-4 text-center">Our Coverage Areas</h2>
@@ -38,13 +79,13 @@
                 <div class="card-body">
                     <h5 class="card-title text-primary mb-3 text-center">West London</h5>
                     <div class="d-flex flex-wrap justify-content-center gap-2">
-                        <a href="/contact" class="badge bg-primary p-3">Ealing</a>
-                        <a href="/contact" class="badge bg-primary p-3">Acton</a>
-                        <a href="/contact" class="badge bg-primary p-3">Hanwell</a>
-                        <a href="/contact" class="badge bg-primary p-3">Perivale</a>
-                        <a href="/contact" class="badge bg-primary p-3">Greenford</a>
-                        <a href="/contact" class="badge bg-primary p-3">Southall</a>
-                        <a href="/contact" class="badge bg-primary p-3">Northolt</a>
+                        <a href="/contact#Ealing" class="badge bg-primary p-3">Ealing</a>
+                        <a href="/contact#Acton" class="badge bg-primary p-3">Acton</a>
+                        <a href="/contact#Hanwell" class="badge bg-primary p-3">Hanwell</a>
+                        <a href="/contact#Perivale" class="badge bg-primary p-3">Perivale</a>
+                        <a href="/contact#Greenford" class="badge bg-primary p-3">Greenford</a>
+                        <a href="/contact#Southall" class="badge bg-primary p-3">Southall</a>
+                        <a href="/contact#Northolt" class="badge bg-primary p-3">Northolt</a>
                     </div>
                 </div>
             </div>
@@ -56,18 +97,18 @@
                 <div class="card-body">
                     <h5 class="card-title text-primary mb-3 text-center">Central & South West London</h5>
                     <div class="d-flex flex-wrap justify-content-center gap-2">
-                        <a href="/contact" class="badge bg-primary p-3">Kensington</a>
-                        <a href="/contact" class="badge bg-primary p-3">Chelsea</a>
-                        <a href="/contact" class="badge bg-primary p-3">Notting Hill</a>
-                        <a href="/contact" class="badge bg-primary p-3">Fulham</a>
-                        <a href="/contact" class="badge bg-primary p-3">Hammersmith</a>
-                        <a href="/contact" class="badge bg-primary p-3">Shepherd's Bush</a>
-                        <a href="/contact" class="badge bg-primary p-3">Chiswick</a>
-                        <a href="/contact" class="badge bg-primary p-3">Richmond</a>
-                        <a href="/contact" class="badge bg-primary p-3">Twickenham</a>
-                        <a href="/contact" class="badge bg-primary p-3">Brentford</a>
-                        <a href="/contact" class="badge bg-primary p-3">Isleworth</a>
-                        <a href="/contact" class="badge bg-primary p-3">Hounslow</a>
+                        <a href="/contact#Kensington" class="badge bg-primary p-3">Kensington</a>
+                        <a href="/contact#Chelsea" class="badge bg-primary p-3">Chelsea</a>
+                        <a href="/contact#Notting-Hill" class="badge bg-primary p-3">Notting Hill</a>
+                        <a href="/contact#Fulham" class="badge bg-primary p-3">Fulham</a>
+                        <a href="/contact#Hammersmith" class="badge bg-primary p-3">Hammersmith</a>
+                        <a href="/contact#Shepherds-Bush" class="badge bg-primary p-3">Shepherd's Bush</a>
+                        <a href="/contact#Chiswick" class="badge bg-primary p-3">Chiswick</a>
+                        <a href="/contact#Richmond" class="badge bg-primary p-3">Richmond</a>
+                        <a href="/contact#Twickenham" class="badge bg-primary p-3">Twickenham</a>
+                        <a href="/contact#Brentford" class="badge bg-primary p-3">Brentford</a>
+                        <a href="/contact#Isleworth" class="badge bg-primary p-3">Isleworth</a>
+                        <a href="/contact#Hounslow" class="badge bg-primary p-3">Hounslow</a>
                     </div>
                 </div>
             </div>
@@ -79,11 +120,11 @@
                 <div class="card-body">
                     <h5 class="card-title text-primary mb-3 text-center">North & North West London</h5>
                     <div class="d-flex flex-wrap justify-content-center gap-2">
-                        <a href="/contact" class="badge bg-primary p-3">Harrow</a>
-                        <a href="/contact" class="badge bg-primary p-3">Wembley</a>
-                        <a href="/contact" class="badge bg-primary p-3">Pinner</a>
-                        <a href="/contact" class="badge bg-primary p-3">Northwood</a>
-                        <a href="/contact" class="badge bg-primary p-3">Eastcote</a>
+                        <a href="/contact#Harrow" class="badge bg-primary p-3">Harrow</a>
+                        <a href="/contact#Wembley" class="badge bg-primary p-3">Wembley</a>
+                        <a href="/contact#Pinner" class="badge bg-primary p-3">Pinner</a>
+                        <a href="/contact#Northwood" class="badge bg-primary p-3">Northwood</a>
+                        <a href="/contact#Eastcote" class="badge bg-primary p-3">Eastcote</a>
                     </div>
                 </div>
             </div>
@@ -95,14 +136,14 @@
                 <div class="card-body">
                     <h5 class="card-title text-primary mb-3 text-center">Uxbridge & Surrounding Areas</h5>
                     <div class="d-flex flex-wrap justify-content-center gap-2">
-                        <a href="/contact" class="badge bg-primary p-3">Uxbridge</a>
-                        <a href="/contact" class="badge bg-primary p-3">Ruislip</a>
-                        <a href="/contact" class="badge bg-primary p-3">Ickenham</a>
-                        <a href="/contact" class="badge bg-primary p-3">Hayes</a>
-                        <a href="/contact" class="badge bg-primary p-3">West Drayton</a>
-                        <a href="/contact" class="badge bg-primary p-3">Hillingdon</a>
-                        <a href="/contact" class="badge bg-primary p-3">Denham</a>
-                        <a href="/contact" class="badge bg-primary p-3">Iver</a>
+                        <a href="/contact#Uxbridge" class="badge bg-primary p-3">Uxbridge</a>
+                        <a href="/contact#Ruislip" class="badge bg-primary p-3">Ruislip</a>
+                        <a href="/contact#Ickenham" class="badge bg-primary p-3">Ickenham</a>
+                        <a href="/contact#Hayes" class="badge bg-primary p-3">Hayes</a>
+                        <a href="/contact#West-Drayton" class="badge bg-primary p-3">West Drayton</a>
+                        <a href="/contact#Hillingdon" class="badge bg-primary p-3">Hillingdon</a>
+                        <a href="/contact#Denham" class="badge bg-primary p-3">Denham</a>
+                        <a href="/contact#Iver" class="badge bg-primary p-3">Iver</a>
                     </div>
                 </div>
             </div>

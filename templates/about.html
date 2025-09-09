@@ -1,5 +1,97 @@
 {% extends 'base.html' %}
-{% block title %}About Us - Adora Construction LTD{% endblock %}
+{% block title %}About Adora Construction - Home Renovation in Uxbridge{% endblock %}
+{% block meta_description %}Adora Construction Ltd, based in Uxbridge, offers expert home renovation, plumbing, electrical, and carpentry services across West London. Learn about our family-run business.{% endblock %}
+{% block meta_keywords %}Adora Construction, home renovation, Uxbridge, West London, plumbing, electrical, carpentry, house extensions, Checkatrade{% endblock %}
+{% block canonical_url %}{{ url_for('about', _external=True) }}{% endblock %}
+{% block og_tags %}
+    <meta property="og:title" content="About Adora Construction - Home Renovation in Uxbridge">
+    <meta property="og:description" content="Adora Construction Ltd, based in Uxbridge, offers expert home renovation, plumbing, electrical, and carpentry services across West London. Learn about our family-run business.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ url_for('about', _external=True) }}">
+    <meta property="og:image" content="{{ url_for('static', filename='images/hero.png', _external=True) }}">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="About Adora Construction - Home Renovation in Uxbridge">
+    <meta name="twitter:description" content="Adora Construction Ltd, based in Uxbridge, offers expert home renovation, plumbing, electrical, and carpentry services across West London.">
+    <meta name="twitter:image" content="{{ url_for('static', filename='images/hero.png', _external=True) }}">
+{% endblock %}
+{% block structured_data %}
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "LocalBusiness",
+        "name": "Adora Construction Ltd",
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "345 Harlington Rd",
+            "addressLocality": "Uxbridge",
+            "addressRegion": "London",
+            "postalCode": "UB8 3JD",
+            "addressCountry": "UK"
+        },
+        "telephone": "+447477659370",
+        "email": "adora.constructionltd@gmail.com",
+        "url": "{{ url_for('about', _external=True) }}",
+        "image": "{{ url_for('static', filename='images/hero.png', _external=True) }}",
+        "description": "Adora Construction Ltd is a family-run business in Uxbridge, providing expert home renovation, plumbing, electrical, and carpentry services across West London.",
+        "areaServed": [
+            "Uxbridge", "Pinner", "Ruislip", "Ickenham", "Ealing", "Acton", "Richmond", "Chiswick",
+            "Kensington", "Chelsea", "Hayes", "West Drayton", "Hillingdon", "Denham", "Iver",
+            "Northwood", "Eastcote", "Harrow", "Northolt", "Greenford", "Southall", "Hanwell",
+            "Perivale", "Wembley", "Brentford", "Twickenham", "Hounslow", "Isleworth", "Hammersmith",
+            "Fulham", "Notting Hill", "Shepherd's Bush"
+        ],
+        "openingHours": "Mo-Fr 08:00-18:00",
+        "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "8.64",
+            "reviewCount": "12",
+            "bestRating": "10",
+            "worstRating": "0"
+        },
+        "review": [
+            {
+                "@type": "Review",
+                "reviewBody": "Reza fixed our garden door perfectly! Efficient, courteous, and professional. Highly recommend!",
+                "reviewRating": {
+                    "@type": "Rating",
+                    "ratingValue": "9"
+                },
+                "author": {
+                    "@type": "Person",
+                    "name": "Anonymous"
+                },
+                "datePublished": "2024-04-01"
+            },
+            {
+                "@type": "Review",
+                "reviewBody": "Amazing work on our kitchen flooring. Tidy, skilled, and versatile. A great tradesman!",
+                "reviewRating": {
+                    "@type": "Rating",
+                    "ratingValue": "9"
+                },
+                "author": {
+                    "@type": "Person",
+                    "name": "Anonymous"
+                },
+                "datePublished": "2024-02-01"
+            },
+            {
+                "@type": "Review",
+                "reviewBody": "Reza fixed my table on short notice with incredible efficiency. Truly reliable!",
+                "reviewRating": {
+                    "@type": "Rating",
+                    "ratingValue": "9"
+                },
+                "author": {
+                    "@type": "Person",
+                    "name": "Anonymous"
+                },
+                "datePublished": "2024-10-01"
+            }
+        ]
+    }
+    </script>
+{% endblock %}
 {% block content %}
     <div class="container my-5">
     <br><br><br><br>
@@ -15,7 +107,7 @@
 
         <section class="mb-5">
             <h2 class="h3 fw-semibold text-dark">What We Do</h2>
-            <p class="text-secondary">Our DBS-cleared team provides top-quality handyman and construction services across Uxbridge, Pinner, Ruislip, and West London (postcodes UB2, UB8, HA4, HA6). From minor repairs to full renovations, we handle every job with care, precision, and a commitment to customer satisfaction.</p>
+            <p class="text-secondary">Our DBS-cleared team provides top-quality handyman and construction services across Uxbridge, Pinner, Ruislip, and West London (postcodes UB2, UB8, HA4, HA6). From minor repairs to full renovations, we handle every job with care, precision, and a commitment to customer satisfaction. <a href="/services" class="text-primary fw-semibold">Explore our services</a> or <a href="/contact" class="text-primary fw-semibold">contact us</a> to start your project.</p>
             <div class="row">
                 <div class="col-md-6">
                     <ul class="list-group list-group-flush">

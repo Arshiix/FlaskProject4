@@ -1,5 +1,62 @@
 {% extends 'base.html' %}
-{% block title %}Home{% endblock %}
+{% block title %}Adora Construction - Home Renovation in Uxbridge{% endblock %}
+{% block meta_description %}Expert home renovation and repair services in Uxbridge, Pinner, Ruislip, and West London. Specializing in kitchen renovations, bathroom installations, flooring, and more.{% endblock %}
+{% block meta_keywords %}home renovation, kitchen renovation, bathroom installation, flooring, plumbing, carpentry, Uxbridge, Pinner, Ruislip, West London{% endblock %}
+{% block canonical_url %}{{ url_for('index', _external=True) }}{% endblock %}
+{% block og_tags %}
+    <meta property="og:title" content="Adora Construction - Home Renovation in Uxbridge">
+    <meta property="og:description" content="Expert home renovation and repair services in Uxbridge, Pinner, Ruislip, and West London. Specializing in kitchen renovations, bathroom installations, flooring, and more.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ url_for('index', _external=True) }}">
+    <meta property="og:image" content="{{ url_for('static', filename='images/hero.png', _external=True) }}">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Adora Construction - Home Renovation in Uxbridge">
+    <meta name="twitter:description" content="Expert home renovation and repair services in Uxbridge, Pinner, Ruislip, and West London.">
+    <meta name="twitter:image" content="{{ url_for('static', filename='images/hero.png', _external=True) }}">
+{% endblock %}
+{% block structured_data %}
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "LocalBusiness",
+        "name": "Adora Construction Ltd",
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "345 Harlington Rd",
+            "addressLocality": "Uxbridge",
+            "addressRegion": "London",
+            "postalCode": "UB8 3JD",
+            "addressCountry": "UK"
+        },
+        "telephone": "+447477659370",
+        "url": "{{ url_for('index', _external=True) }}",
+        "image": "{{ url_for('static', filename='images/hero.png', _external=True) }}",
+        "description": "Adora Construction Ltd provides expert home renovation and repair services in Uxbridge, Pinner, Ruislip, and West London.",
+        "areaServed": [
+            "Uxbridge", "Pinner", "Ruislip", "Ickenham", "Ealing", "Acton", "Richmond", "Chiswick", "Kensington", "Chelsea"
+        ],
+        "openingHours": "Mo-Fr 08:00-18:00",
+        "offers": [
+            {% for service in services %}
+            {
+                "@type": "Service",
+                "serviceType": "{{ service.name | e }}",
+                "description": "{{ service.description | truncate(200) | e }}",
+                "provider": {
+                    "@type": "LocalBusiness",
+                    "name": "Adora Construction Ltd"
+                },
+                "areaServed": [
+                    "Uxbridge", "Pinner", "Ruislip", "Ickenham", "Ealing"
+                ]
+            }{% if not loop.last %},{% endif %}
+            {% else %}
+            []
+            {% endfor %}
+        ]
+    }
+    </script>
+{% endblock %}
 {% block content %}
 
 <!-- Hero Section -->
@@ -95,7 +152,7 @@
                                         <div class="carousel-item {% if loop.first %}active{% endif %}">
                                             <div class="gallery-box">
                                                 <img src="{{ url_for('static', filename='images/' + image.category + '/' + image.filename) }}"
-                                                     alt="{{ service.name }}"
+                                                     alt="{{ service.name }} in Uxbridge"
                                                      loading="lazy"
                                                      data-bs-toggle="modal"
                                                      data-bs-target="#imageModal"
@@ -119,7 +176,7 @@
                         {% else %}
                             <div class="gallery-box">
                                 <img src="{{ url_for('static', filename='images/placeholder.png') }}"
-                                     alt="No images available"
+                                     alt="Placeholder for {{ service.name }} in Uxbridge"
                                      loading="lazy">
                             </div>
                         {% endif %}
@@ -154,7 +211,6 @@
     </div>
 
     <!-- User Reviews Section -->
-
     <div class="row">
         {% for testimonial in testimonials if testimonial.is_user_submitted %}
             <div class="col-md-4 mb-4">
@@ -361,7 +417,7 @@ document.addEventListener("DOMContentLoaded", function () {
             var activeClass = (src === clickedSrc && index === images.indexOf(clickedSrc)) ? "active" : "";
             var div = document.createElement("div");
             div.className = "carousel-item " + activeClass;
-            div.innerHTML = `<img src="${src}" class="d-block mx-auto" style="max-width:100%; max-height:90vh; object-fit:contain;" alt="Service image">`;
+            div.innerHTML = `<img src="${src}" class="d-block mx-auto" style="max-width:100%; max-height:90vh; object-fit:contain;" alt="Service image in Uxbridge">`;
             modalCarouselInner.appendChild(div);
         });
 
