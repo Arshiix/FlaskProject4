@@ -145,7 +145,6 @@ def init_db():
             db.session.add(User(username='admin', password=hashed_pw))
             app.logger.info("Created default admin user")
 
-
         global categories
         existing_categories = set(categories)
         for service in Service.query.all():
@@ -231,16 +230,10 @@ class TestimonialModelView(SecureModelView):
     column_searchable_list = ['client_name', 'content', 'location']
     form_columns = ['client_name', 'content', 'location', 'rating', 'is_user_submitted']
 
-
-
-
 class LoginForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
     submit = SubmitField('Login')
-
-
-
 
 admin.add_view(SecureModelView(User, db.session))
 admin.add_view(SecureModelView(Service, db.session))
@@ -253,7 +246,9 @@ admin.add_view(SecureModelView(Tip, db.session))
 # =======================
 @login_manager.user_loader
 def load_user(user_id):
-    return User.query.get(int(user_id))
+    user = User.query.get(int(user_id))
+    app.logger.info(f"Loading user: {user_id}, found: {user}")
+    return user
 
 # =======================
 # Allowed File Extensions
@@ -266,26 +261,44 @@ def is_allowed_file(filename):
 # =======================
 # Routes
 # =======================
+@app.route('/reset_admin')
+def reset_admin():
+    with app.app_context():
+        user = User.query.filter_by(username='admin').first()
+        if not user:
+            default_password = os.getenv('ADMIN_DEFAULT_PASSWORD')
+            is_valid, message = is_strong_password(default_password)
+            if not is_valid:
+                return jsonify({'error': message})
+            hashed_pw = generate_password_hash(default_password, method='pbkdf2:sha256:600000')
+            db.session.add(User(username='admin', password=hashed_pw))
+            db.session.commit()
+            app.logger.info("Admin user created")
+            return jsonify({'status': 'Admin user created'})
+        else:
+            default_password = os.getenv('ADMIN_DEFAULT_PASSWORD')
+            hashed_pw = generate_password_hash(default_password, method='pbkdf2:sha256:600000')
+            user.password = hashed_pw
+            db.session.commit()
+            app.logger.info("Admin user password reset")
+            return jsonify({'status': 'Admin user password reset'})
+
 @app.route('/login', methods=['GET', 'POST'])
 @limiter.limit("5 per minute")
 def login():
     form = LoginForm()
-    if form.validate_on_submit():  # form passed validation
+    if form.validate_on_submit():
         username = form.username.data
         password = form.password.data
         user = User.query.filter_by(username=username).first()
+        app.logger.info(f"Login attempt: {username}, user_exists: {user is not None}, password_match: {user and check_password_hash(user.password, password)}")
         if user and check_password_hash(user.password, password):
             login_user(user)
             app.logger.info(f"Successful login for user: {username}")
             flash('Logged in successfully.', 'success')
             return redirect(url_for('admin_dashboard'))
-        else:
-            # Only flash if credentials are wrong
-            flash('Invalid username or password.', 'danger')
-    # WTForms validation errors will already appear via form.errors
+        flash('Invalid username or password.', 'danger')
     return render_template('login.html', form=form)
-
-
 
 @app.route('/logout')
 @login_required
@@ -635,7 +648,7 @@ def areas():
 
 @app.route('/contact', defaults={'service_id': None}, methods=['GET', 'POST'])
 @app.route('/contact/<int:service_id>', methods=['GET', 'POST'])
-@csrf.exempt  # Temporary exemption until contact form is updated with CSRF
+@csrf.exempt
 def contact(service_id):
     app.logger.info(f"Accessing /contact with service_id: {service_id}")
     service = Service.query.get(service_id) if service_id else None
