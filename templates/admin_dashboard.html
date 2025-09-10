@@ -20,44 +20,54 @@
 
 /* Fix modal layering and ensure accessibility */
 .modal {
-    z-index: 1060 !important; /* Above Bootstrap backdrop (1040) and modal (1050) */
+    z-index: 1100 !important; /* Higher than potential overlaps and backdrop (1040) */
 }
 
-/* Style and ensure close button is accessible */
-.modal-header {
-    z-index: 1062 !important; /* Above all modal content */
-    padding: 0.5rem 1rem; /* Consistent padding for better look */
-    border-bottom: 1px solid #dee2e6; /* Bootstrap default border for visual appeal */
-}
-.modal-header .btn-close {
-    z-index: 1063 !important; /* Highest in modal to ensure clickability */
-    position: relative;
-    opacity: 0.8; /* Slight transparency for modern look */
-    transition: opacity 0.2s ease; /* Smooth hover effect */
-}
-.modal-header .btn-close:hover {
-    opacity: 1; /* Full opacity on hover for better UX */
-}
-
-/* Ensure modal image is accessible and looks good */
-.modal-body {
-    z-index: 1061 !important; /* Above modal background */
-    padding: 1rem; /* Consistent padding */
-}
-.modal-body img {
-    z-index: 1061 !important; /* Matches modal-body to ensure clickability */
-    position: relative;
-    max-width: 100%;
-    height: auto;
-    display: block;
-    border-radius: 8px; /* Maintain rounded look */
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for visual appeal */
+/* Style modal backdrop to stay below content */
+.modal-backdrop {
+    z-index: 1099 !important; /* Below modal but above other content */
 }
 
 /* Ensure modal content is properly layered */
 .modal-content {
-    z-index: 1060 !important; /* Matches modal z-index */
-    border-radius: 12px; /* Slightly larger radius for modern look */
+    z-index: 1100 !important; /* Matches modal z-index */
+    border-radius: 12px; /* Modern rounded look */
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+}
+
+/* Ensure close button is accessible and styled */
+.modal-header {
+    z-index: 1102 !important; /* Above modal content */
+    position: relative;
+    padding: 0.5rem 1rem; /* Consistent padding */
+    border-bottom: 1px solid #dee2e6; /* Bootstrap default border */
+}
+.modal-header .btn-close {
+    z-index: 1103 !important; /* Highest in modal for clickability */
+    position: absolute; /* Ensure proper stacking */
+    top: 0.5rem;
+    right: 0.5rem;
+    opacity: 0.8; /* Slight transparency */
+    transition: opacity 0.2s ease; /* Smooth hover */
+}
+.modal-header .btn-close:hover {
+    opacity: 1; /* Full opacity on hover */
+}
+
+/* Ensure modal image is accessible and styled */
+.modal-body {
+    z-index: 1101 !important; /* Above modal backdrop and content */
+    padding: 1rem; /* Consistent padding */
+}
+.modal-body img {
+    z-index: 1101 !important; /* Matches modal-body for clickability */
+    position: relative; /* Enforce stacking context */
+    max-width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 8px; /* Rounded image */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    pointer-events: auto; /* Ensure image is clickable */
 }
 </style>
 
