@@ -17,6 +17,17 @@
 .table-responsive {
     overflow-x: auto;
 }
+
+/* Fix modal close button overlay issue */
+.modal-header {
+    position: relative;
+    z-index: 1051; /* higher than modal-body image */
+}
+.modal-body img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
 </style>
 
 <div class="container my-5">
