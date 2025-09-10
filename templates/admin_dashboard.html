@@ -2,30 +2,6 @@
 {% block title %}Admin Dashboard{% endblock %}
 {% block content %}
 <style>
-/* Ensure the entire modal is above other elements */
-.modal {
-    z-index: 1060 !important; /* Higher than Bootstrap's default backdrop (1040) and modal (1050) */
-}
-
-/* Ensure the close button is accessible and above other modal content */
-.modal-header .btn-close {
-    z-index: 1061 !important; /* Higher than modal content */
-    position: relative;
-}
-
-/* Ensure the modal image is accessible */
-.modal-body img {
-    z-index: 1059 !important; /* Below header but above modal background */
-    position: relative; /* Ensures the image respects the z-index */
-    max-width: 100%;
-    height: auto;
-    display: block;
-}
-
-/* Ensure the modal content is properly layered */
-.modal-content {
-    z-index: 1060 !important; /* Matches modal z-index */
-}
 /* Mobile adjustments */
 @media (max-width: 576px) {
     .table td img {
@@ -42,29 +18,46 @@
     overflow-x: auto;
 }
 
-/* Ensure the entire modal is above other elements */
+/* Fix modal layering and ensure accessibility */
 .modal {
-    z-index: 1060 !important;
+    z-index: 1060 !important; /* Above Bootstrap backdrop (1040) and modal (1050) */
 }
 
-/* Ensure the close button is accessible and above other modal content */
+/* Style and ensure close button is accessible */
+.modal-header {
+    z-index: 1062 !important; /* Above all modal content */
+    padding: 0.5rem 1rem; /* Consistent padding for better look */
+    border-bottom: 1px solid #dee2e6; /* Bootstrap default border for visual appeal */
+}
 .modal-header .btn-close {
-    z-index: 1061 !important;
+    z-index: 1063 !important; /* Highest in modal to ensure clickability */
     position: relative;
+    opacity: 0.8; /* Slight transparency for modern look */
+    transition: opacity 0.2s ease; /* Smooth hover effect */
+}
+.modal-header .btn-close:hover {
+    opacity: 1; /* Full opacity on hover for better UX */
 }
 
-/* Ensure the modal image is accessible */
+/* Ensure modal image is accessible and looks good */
+.modal-body {
+    z-index: 1061 !important; /* Above modal background */
+    padding: 1rem; /* Consistent padding */
+}
 .modal-body img {
-    z-index: 1059 !important;
+    z-index: 1061 !important; /* Matches modal-body to ensure clickability */
     position: relative;
     max-width: 100%;
     height: auto;
     display: block;
+    border-radius: 8px; /* Maintain rounded look */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for visual appeal */
 }
 
-/* Ensure the modal content is properly layered */
+/* Ensure modal content is properly layered */
 .modal-content {
-    z-index: 1060 !important;
+    z-index: 1060 !important; /* Matches modal z-index */
+    border-radius: 12px; /* Slightly larger radius for modern look */
 }
 </style>
 
@@ -222,7 +215,7 @@
                     </div>
                 </div>
                 {% endfor %}
-            </tbody>
+        </tbody>
         </table>
     </div>
 </div>
