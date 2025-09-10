@@ -2,6 +2,30 @@
 {% block title %}Admin Dashboard{% endblock %}
 {% block content %}
 <style>
+/* Ensure the entire modal is above other elements */
+.modal {
+    z-index: 1060 !important; /* Higher than Bootstrap's default backdrop (1040) and modal (1050) */
+}
+
+/* Ensure the close button is accessible and above other modal content */
+.modal-header .btn-close {
+    z-index: 1061 !important; /* Higher than modal content */
+    position: relative;
+}
+
+/* Ensure the modal image is accessible */
+.modal-body img {
+    z-index: 1059 !important; /* Below header but above modal background */
+    position: relative; /* Ensures the image respects the z-index */
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Ensure the modal content is properly layered */
+.modal-content {
+    z-index: 1060 !important; /* Matches modal z-index */
+}
 /* Mobile adjustments */
 @media (max-width: 576px) {
     .table td img {
@@ -18,15 +42,29 @@
     overflow-x: auto;
 }
 
-/* Fix modal close button overlay issue */
-.modal-header {
-    position: relative;
-    z-index: 1051; /* higher than modal-body image */
+/* Ensure the entire modal is above other elements */
+.modal {
+    z-index: 1060 !important;
 }
+
+/* Ensure the close button is accessible and above other modal content */
+.modal-header .btn-close {
+    z-index: 1061 !important;
+    position: relative;
+}
+
+/* Ensure the modal image is accessible */
 .modal-body img {
+    z-index: 1059 !important;
+    position: relative;
     max-width: 100%;
     height: auto;
     display: block;
+}
+
+/* Ensure the modal content is properly layered */
+.modal-content {
+    z-index: 1060 !important;
 }
 </style>
 
