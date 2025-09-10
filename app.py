@@ -777,7 +777,7 @@ def contact(service_id):
         gallery_pdf = create_pdf(saved_gallery_files, gallery_pdf_path, "Selected Gallery Images")
 
         try:
-            msg = Message(f'Contact Form Submission: {name}', recipients=['arshia.rasoulpour@gmail.com'])
+            msg = Message(f'Contact Form Submission: {name}', recipients=['Adora.constructionLTD@gmail.com'])
             msg.body = f"""
 Name: {name}
 Email: {email}
