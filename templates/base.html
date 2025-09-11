@@ -3,21 +3,70 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Adora Construction LTD - Expert construction and repair services in Uxbridge, Pinner, Ruislip, and West London.">
-    <title>Adora Construction LTD - {% block title %}{% endblock %}</title>
+
+    <!-- Dynamic title & description -->
+    <title>{% block title %}Adora Construction LTD - Expert Construction & Handyman Services{% endblock %}</title>
+    <meta name="description" content="{% block description %}Expert construction, plumbing, carpentry, and handyman services in Uxbridge, Ruislip, Pinner, and West London.{% endblock %}">
+
+    <!-- Canonical (exclude admin pages) -->
+    {% if not request.path.startswith('/admin') %}
+        <link rel="canonical" href="{{ request.url_root|trim('/') }}{{ request.path }}">
+    {% endif %}
+
+    <!-- Open Graph / Twitter -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="{% block og_title %}Adora Construction LTD{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}Reliable construction and handyman services in West London.{% endblock %}">
+    <meta property="og:url" content="{{ request.url }}">
+    <meta property="og:image" content="{{ url_for('static', filename='images/og-image.jpg', _external=True) }}">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{% block twitter_title %}Adora Construction LTD{% endblock %}">
+    <meta name="twitter:description" content="{% block twitter_description %}Trusted construction, plumbing, and handyman services in Uxbridge and West London.{% endblock %}">
+    <meta name="twitter:image" content="{{ url_for('static', filename='images/og-image.jpg', _external=True) }}">
+
+    <!-- LocalBusiness Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "name": "Adora Construction LTD",
+      "image": "https://adora-construction.co.uk/static/images/logo.png",
+      "url": "https://adora-construction.co.uk",
+      "telephone": "+44-7477-659370",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "345 Harlington Road",
+        "addressLocality": "Uxbridge",
+        "postalCode": "UB8 3JD",
+        "addressCountry": "UK"
+      },
+      "areaServed": ["Uxbridge","Pinner","Ruislip","Ealing","Richmond","West London"],
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Construction & Handyman Services",
+        "itemListElement": [
+          {"@type":"Offer","itemOffered":{"@type":"Service","name":"Plumbing & Heating"}},
+          {"@type":"Offer","itemOffered":{"@type":"Service","name":"Electrical Installations"}},
+          {"@type":"Offer","itemOffered":{"@type":"Service","name":"Carpentry & Joinery"}},
+          {"@type":"Offer","itemOffered":{"@type":"Service","name":"Kitchen & Bathroom Renovation"}},
+          {"@type":"Offer","itemOffered":{"@type":"Service","name":"Roofing & Flooring"}}
+        ]
+      }
+    }
+    </script>
+
+    <!-- Fonts & CSS -->
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@500;700&family=Source+Sans+Pro:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link rel="icon" href="{{ url_for('static', filename='images/favicon.ico') }}" type="image/x-icon">
-
-
 </head>
 <body>
+    <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
         <div class="container">
             <a class="navbar-brand" href="/">ADORA CONSTRUCTION LTD</a>
-<a href="https://wa.me/+447477659370" class="btn btn-success">WhatsApp Us</a>
-
+            <a href="https://wa.me/+447477659370" class="btn btn-success">WhatsApp Us</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -36,6 +85,7 @@
             </div>
         </div>
     </nav>
+
     {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
             <div class="container mt-5 pt-5">
@@ -48,61 +98,53 @@
             </div>
         {% endif %}
     {% endwith %}
+
     {% block content %}{% endblock %}
-<footer class="bg-dark text-light pt-4 pb-3 mt-5">
-  <div class="container">
-    <div class="row text-center text-md-start">
 
-      <!-- Company Info -->
-      <div class="col-12 col-md-4 mb-3">
-        <h6 class="fw-bold mb-2">Adora Construction Ltd</h6>
-        <p class="small mb-1">
-          Carpentry, plumbing, electrics & building services across West London.
-        </p>
-        <p class="mb-1">
-          <i class="bi bi-telephone"></i>
-          <a href="tel:07477659370" class="text-light text-decoration-none">07477 659 370</a>
-        </p>
-        <p>
-          <a href="https://wa.me/447477659370" class="btn btn-success btn-sm">WhatsApp</a>
-        </p>
+    <!-- Footer -->
+    <footer class="bg-dark text-light pt-4 pb-3 mt-5">
+      <div class="container">
+        <div class="row text-center text-md-start">
+          <!-- Company Info -->
+          <div class="col-12 col-md-4 mb-3">
+            <h6 class="fw-bold mb-2">Adora Construction Ltd</h6>
+            <p class="small mb-1">Carpentry, plumbing, electrics & building services across West London.</p>
+            <p class="mb-1">
+              <i class="bi bi-telephone"></i>
+              <a href="tel:07477659370" class="text-light text-decoration-none">07477 659 370</a>
+            </p>
+            <p><a href="https://wa.me/447477659370" class="btn btn-success btn-sm">WhatsApp</a></p>
+          </div>
+
+          <!-- Quick Links -->
+          <div class="col-6 col-md-4 mb-3">
+            <h6 class="fw-bold mb-2">Quick Links</h6>
+            <ul class="list-unstyled small">
+              <li><a href="/" class="text-light text-decoration-none">Home</a></li>
+              <li><a href="/services" class="text-light text-decoration-none">Services</a></li>
+              <li><a href="/areas" class="text-light text-decoration-none">Areas</a></li>
+              <li><a href="/about" class="text-light text-decoration-none">About</a></li>
+              <li><a href="/contact" class="text-light text-decoration-none">Contact</a></li>
+            </ul>
+          </div>
+
+          <!-- Services -->
+          <div class="col-6 col-md-4 mb-3">
+            <h6 class="fw-bold mb-2">Expertise</h6>
+            <ul class="list-unstyled small">
+              <li>Carpentry & Joinery</li>
+              <li>Plumbing & Heating</li>
+              <li>Electrical Installations</li>
+              <li>Building Renovations</li>
+              <li><a href="/services" class="text-light text-decoration-none">All Services →</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="text-center border-top border-secondary pt-2 mt-2">
+          <small class="d-block">© 2025 Adora Construction Ltd · Reg. 13798606 · 345 Harlington Rd, Uxbridge, UB8 3JD</small>
+        </div>
       </div>
-
-      <!-- Quick Links -->
-      <div class="col-6 col-md-4 mb-3">
-        <h6 class="fw-bold mb-2">Quick Links</h6>
-        <ul class="list-unstyled small">
-          <li><a href="/" class="text-light text-decoration-none">Home</a></li>
-          <li><a href="/services" class="text-light text-decoration-none">Services</a></li>
-          <li><a href="/areas" class="text-light text-decoration-none">Areas</a></li>
-          <li><a href="/about" class="text-light text-decoration-none">About</a></li>
-          <li><a href="/contact" class="text-light text-decoration-none">Contact</a></li>
-        </ul>
-      </div>
-
-      <!-- Services -->
-      <div class="col-6 col-md-4 mb-3">
-        <h6 class="fw-bold mb-2">Expertise</h6>
-        <ul class="list-unstyled small">
-          <li>Carpentry & Joinery</li>
-          <li>Plumbing & Heating</li>
-          <li>Electrical Installations</li>
-          <li>Building Renovations</li>
-          <li><a href="/services" class="text-light text-decoration-none">All Services →</a></li>
-        </ul>
-      </div>
-
-    </div>
-
-    <!-- Bottom Bar -->
-    <div class="text-center border-top border-secondary pt-2 mt-2">
-      <small class="d-block">
-        © 2025 Adora Construction Ltd · Reg. 13798606 · 345 Harlington Rd, Uxbridge, UB8 3JD
-      </small>
-    </div>
-  </div>
-</footer>
-
+    </footer>
 
     <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
