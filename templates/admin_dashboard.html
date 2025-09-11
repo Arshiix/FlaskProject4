@@ -1,3 +1,4 @@
+is this correct now?
 {% extends 'base.html' %}
 {% block title %}Admin Dashboard{% endblock %}
 {% block content %}
@@ -19,72 +20,49 @@
     overflow-x: auto;
 }
 
-/* ----------------- Modal Fixes ----------------- */
-/* Default Bootstrap stacking */
-.modal {
-    z-index: 1050; /* modal above everything else */
-}
-
-.modal-backdrop {
-    z-index: 1040; /* backdrop below modal */
-}
-
-/* Ensure modal content above backdrop */
+/* ----------------- Modal Styles (Bootstrap default stacking) ----------------- */
+/* Keep default modal & backdrop stacking */
 .modal-content {
-    position: relative;
-    z-index: 1051;
-    border-radius: 12px; /* rounded corners for modern look */
+    border-radius: 12px;
     box-shadow: 0 4px 16px rgba(0,0,0,0.2);
 }
 
-/* Modal header and close button */
 .modal-header {
-    position: relative;
     padding: 0.5rem 1rem;
     border-bottom: 1px solid #dee2e6;
-    z-index: 1052; /* above modal content for button clickability */
 }
+
 .modal-header .btn-close {
-    position: relative;
-    z-index: 1053; /* ensures it’s clickable */
-    top: 0;
-    right: 0;
     opacity: 0.8;
     transition: opacity 0.2s ease;
 }
+
 .modal-header .btn-close:hover {
     opacity: 1;
 }
 
-/* Modal body and images */
 .modal-body {
     padding: 1rem;
     text-align: center;
-    z-index: 1051;
 }
+
 .modal-body img {
     max-width: 100%;
     height: auto;
     display: block;
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    pointer-events: auto; /* ensures interaction */
+    pointer-events: auto;
 }
 
-/* ----------------- Table Images ----------------- */
+/* Table images */
 .img-thumbnail {
-    cursor: pointer; /* indicates clickable */
+    cursor: pointer;
     transition: transform 0.2s ease;
 }
-.img-thumbnail:hover {
-    transform: scale(1.05); /* subtle zoom on hover */
-}
 
-/* ----------------- Optional Minor Enhancements ----------------- */
-/* Reduce top spacing for mobile */
-.container.my-5 {
-    margin-top: 3rem !important;
-    margin-bottom: 3rem !important;
+.img-thumbnail:hover {
+    transform: scale(1.05);
 }
 
 /* Buttons full-width on small screens */
@@ -94,7 +72,14 @@
         margin-bottom: 0.5rem;
     }
 }
+
+/* Reduce top spacing for mobile */
+.container.my-5 {
+    margin-top: 3rem !important;
+    margin-bottom: 3rem !important;
+}
 </style>
+
 
 
 <div class="container my-5">
@@ -255,4 +240,5 @@
         </table>
     </div>
 </div>
+
 {% endblock %}
