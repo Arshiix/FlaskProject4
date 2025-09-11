@@ -1,8 +1,15 @@
-is this correct now?
 {% extends 'base.html' %}
 {% block title %}Admin Dashboard{% endblock %}
 {% block content %}
 <style>
+/* ===================== FIX FOR MODAL ON SMALL SCREENS ===================== */
+.modal {
+    z-index: 1055 !important; /* ensures modal is above everything */
+}
+.modal-backdrop {
+    z-index: 1050 !important; /* ensures backdrop stays below modal */
+}
+
 /* ----------------- Mobile Adjustments ----------------- */
 @media (max-width: 576px) {
     .table td img {
@@ -79,8 +86,6 @@ is this correct now?
     margin-bottom: 3rem !important;
 }
 </style>
-
-
 
 <div class="container my-5">
     <br><br>
@@ -220,7 +225,7 @@ is this correct now?
                     </td>
                 </tr>
 
-                <!-- Modal for larger preview without filename -->
+                <!-- Modal for larger preview -->
                 <div class="modal fade" id="imageModal{{ image.id }}" tabindex="-1" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered modal-lg">
                         <div class="modal-content">
