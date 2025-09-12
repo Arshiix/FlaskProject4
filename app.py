@@ -51,7 +51,9 @@ validate_env_vars()
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URI')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['UPLOAD_FOLDER'] = 'static/images'
+# Updated to use persistent disk mount point
+DISK_MOUNT_PATH = '/var/data'
+app.config['UPLOAD_FOLDER'] = os.path.join(DISK_MOUNT_PATH, 'static/images')
 os.makedirs(os.path.join(app.config['UPLOAD_FOLDER'], 'user_uploads'), exist_ok=True)
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB max upload
 
@@ -81,8 +83,10 @@ app.config.update(
 # =======================
 # Logging
 # =======================
-os.makedirs('logs', exist_ok=True)
-handler = RotatingFileHandler('logs/adora.log', maxBytes=1_000_000, backupCount=5)
+# Updated to use persistent disk for logs
+LOG_DIR = os.path.join(DISK_MOUNT_PATH, 'logs')
+os.makedirs(LOG_DIR, exist_ok=True)
+handler = RotatingFileHandler(os.path.join(LOG_DIR, 'adora.log'), maxBytes=1_000_000, backupCount=5)
 handler.setLevel(logging.INFO)
 formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
 handler.setFormatter(formatter)
@@ -153,6 +157,7 @@ def init_db():
             category = service.name.lower().replace(' ', '_')
             if category not in existing_categories:
                 categories.append(category)
+                # Updated to use persistent path
                 os.makedirs(os.path.join(app.config['UPLOAD_FOLDER'], category), exist_ok=True)
         if not Testimonial.query.first():
             testimonials_data = [
@@ -177,6 +182,7 @@ def init_db():
 # Categories
 # =======================
 categories = []
+# Updated to use persistent path
 os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 for cat in categories:
     os.makedirs(os.path.join(app.config['UPLOAD_FOLDER'], cat), exist_ok=True)
@@ -301,8 +307,6 @@ def login():
             return redirect(url_for('admin_dashboard'))
     return render_template('login.html', form=form)
 
-
-
 @app.route('/sitemap.xml')
 def sitemap():
     return send_from_directory('static', 'sitemap.xml')
@@ -370,6 +374,7 @@ def add_service():
             new_category = name.lower().replace(" ", "_")
             if new_category not in categories:
                 categories.append(new_category)
+                # Updated to use persistent path
                 os.makedirs(os.path.join(app.config['UPLOAD_FOLDER'], new_category), exist_ok=True)
             flash('Service added successfully.', 'success')
             app.logger.info(f"Service added: {name} by user {current_user.username}")
@@ -427,6 +432,7 @@ def upload():
         for file in files:
             if file and file.filename.lower().endswith(('.png', '.jpg', '.jpeg')):
                 filename = secure_filename(file.filename)
+                # Updated to use persistent path
                 file_path = os.path.join(app.config['UPLOAD_FOLDER'], category, filename)
                 file.save(file_path)
                 if os.path.exists(file_path):
@@ -549,6 +555,7 @@ def edit_image(id):
 @csrf.exempt
 def delete_image(id):
     image = Image.query.get_or_404(id)
+    # Updated to use persistent path
     file_path = os.path.join(app.config['UPLOAD_FOLDER'], image.category, image.filename)
     if os.path.exists(file_path):
         os.remove(file_path)
@@ -680,6 +687,7 @@ def contact(service_id):
             flash('Please fill in all required fields (name, email, message).', 'danger')
             return redirect(url_for('contact', service_id=service_id))
 
+        # Updated to use persistent path
         upload_dir = os.path.join(app.config['UPLOAD_FOLDER'], 'user_uploads')
         os.makedirs(upload_dir, exist_ok=True)
         app.logger.info(f"Upload directory ensured: {upload_dir}")
@@ -716,6 +724,7 @@ def contact(service_id):
                 continue
             image = Image.query.filter_by(filename=filename).first()
             if image:
+                # Updated to use persistent path
                 filepath = os.path.join(app.config['UPLOAD_FOLDER'], image.category, filename)
                 if os.path.exists(filepath):
                     saved_gallery_files.append((filepath, filename))
@@ -796,7 +805,8 @@ Service ID: {service_id if service_id else 'None'}
 
             for pdf_path, pdf_name in pdf_attachments:
                 try:
-                    with app.open_resource(pdf_path, 'rb') as fp:
+                    # Updated to use standard open() for persistent disk files
+                    with open(pdf_path, 'rb') as fp:
                         msg.attach(pdf_name, 'application/pdf', fp.read())
                         app.logger.info(f"Attached PDF: {pdf_name} (size: {os.path.getsize(pdf_path)} bytes)")
                 except Exception as e:
