@@ -49,8 +49,19 @@ def validate_env_vars():
 validate_env_vars()
 
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
-app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URI')
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+# 🔧 Add this block
+app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
+    "pool_pre_ping": True,     # test connections before using
+    "pool_recycle": 280,       # recycle before Supabase closes idle ones
+    "pool_size": 5,            # keep small for Supabase free tier
+    "max_overflow": 10         # allow some bursts
+}
+
+db = SQLAlchemy(app)
+
 # Updated to use persistent disk mount point
 DISK_MOUNT_PATH = '/var/data'
 app.config['UPLOAD_FOLDER'] = os.path.join(DISK_MOUNT_PATH, 'static/images')
@@ -97,7 +108,7 @@ app.logger.setLevel(logging.INFO)
 # Extensions
 # =======================
 mail = Mail(app)
-db = SQLAlchemy(app)
+
 csrf = CSRFProtect(app)
 admin = Admin(app, name='Adora Admin', template_mode='bootstrap4')
 login_manager = LoginManager()
