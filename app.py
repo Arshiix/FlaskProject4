@@ -64,6 +64,7 @@ app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
 
 
 # Updated to use persistent disk mount point
+db = SQLAlchemy(app)
 DISK_MOUNT_PATH = '/var/data'
 app.config['UPLOAD_FOLDER'] = os.path.join(DISK_MOUNT_PATH, 'static/images')
 os.makedirs(os.path.join(app.config['UPLOAD_FOLDER'], 'user_uploads'), exist_ok=True)
@@ -97,7 +98,7 @@ app.config.update(
 # =======================
 # Updated to use persistent disk for logs
 LOG_DIR = os.path.join(DISK_MOUNT_PATH, 'logs')
-db = SQLAlchemy(app)
+
 os.makedirs(LOG_DIR, exist_ok=True)
 handler = RotatingFileHandler(os.path.join(LOG_DIR, 'adora.log'), maxBytes=1_000_000, backupCount=5)
 handler.setLevel(logging.INFO)
