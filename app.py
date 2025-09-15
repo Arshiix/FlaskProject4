@@ -35,7 +35,7 @@ app = Flask(__name__)
 def validate_env_vars():
     required_vars = [
         'SECRET_KEY',
-        'DATABASE_URI',
+        'DATABASE_URL',  # ✅ corrected
         'MAIL_SERVER',
         'MAIL_PORT',
         'MAIL_USERNAME',
@@ -45,6 +45,7 @@ def validate_env_vars():
     for var in required_vars:
         if not os.getenv(var):
             raise EnvironmentError(f"Missing required environment variable: {var}")
+
 
 validate_env_vars()
 
@@ -60,7 +61,7 @@ app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
     "max_overflow": 10         # allow some bursts
 }
 
-db = SQLAlchemy(app)
+
 
 # Updated to use persistent disk mount point
 DISK_MOUNT_PATH = '/var/data'
@@ -96,6 +97,7 @@ app.config.update(
 # =======================
 # Updated to use persistent disk for logs
 LOG_DIR = os.path.join(DISK_MOUNT_PATH, 'logs')
+db = SQLAlchemy(app)
 os.makedirs(LOG_DIR, exist_ok=True)
 handler = RotatingFileHandler(os.path.join(LOG_DIR, 'adora.log'), maxBytes=1_000_000, backupCount=5)
 handler.setLevel(logging.INFO)
