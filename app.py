@@ -93,7 +93,15 @@ app.logger.setLevel(logging.INFO)
 # Extensions
 # =======================
 mail = Mail(app)
+from sqlalchemy import create_engine
+
+# Use pool_pre_ping to avoid stale connections
+app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
+    'pool_pre_ping': True
+}
+
 db = SQLAlchemy(app)
+
 csrf = CSRFProtect(app)
 admin = Admin(app, name='Adora Admin', template_mode='bootstrap4')
 login_manager = LoginManager()
